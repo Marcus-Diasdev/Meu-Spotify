@@ -15,7 +15,7 @@ const resultsArtist = document.getElementById('result-artist');
 const resultPlaylist = document.getElementById('result-playlists');
 
 function requestApi(searchTerm) {
-  const url = `http://localhost:3000/artists`;
+  const url = `https://marcus-diasdev.github.io/Meu-Spotify/api-artists/artists.json`;
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
