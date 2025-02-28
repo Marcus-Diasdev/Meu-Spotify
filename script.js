@@ -15,10 +15,14 @@ const resultsArtist = document.getElementById('result-artist');
 const resultPlaylist = document.getElementById('result-playlists');
 
 function requestApi(searchTerm) {
-  const url = `https://marcus-diasdev.github.io/Meu-Spotify/api-artists/artists.json?name_like=${searchTerm}`;
+  const url = `https://marcus-diasdev.github.io/Meu-Spotify/api-artists/artists.json`;
   fetch(url)
     .then((response) => response.json())
-    .then((result) => {displayResults(filteredResults);
+    .then((result) => {
+      const filteredResults = result.filter(artist => 
+        artist.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      displayResults(filteredResults);
     });
 }
 
