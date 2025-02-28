@@ -19,49 +19,43 @@ function requestApi(searchTerm) {
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
+      // Filtra os resultados manualmente
       const filteredResults = result.filter(artist => 
         artist.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
       displayResults(filteredResults);
+    })
+    .catch((error) => {
+      console.error('Erro ao buscar os dados:', error);
     });
 }
 
 function displayResults(result) {
-  resultPlaylist.classList.add('hidden');
   const artistName = document.getElementById('artist-name');
   const artistImage = document.getElementById('artist-img');
-  const artistGenre = document.querySelector('.artist-categorie')
-
-  result.forEach(element =>  {
-    artistName.innerText = element.name;
-    artistImage.src = element.urlImg;
-    artistGenre.innerText = element.genre;
-  });
-
-  resultsArtist.classList.remove('hidden');
-  artistName.innerText = '';
-  artistImage.src = '';
-  artistGenre.innerText = '';
+  const artistGenre = document.querySelector('.artist-categorie');
 
   if (result.length > 0) {
-    const element = result[0]; 
+    const element = result[0]; // Pega o primeiro resultado
     artistName.innerText = element.name;
     artistImage.src = element.urlImg;
     artistGenre.innerText = element.genre;
     resultsArtist.classList.remove('hidden');
+    resultPlaylist.classList.add('hidden');
   } else {
+    // Se não houver resultados, esconde a seção de artistas
     resultsArtist.classList.add('hidden');
+    resultPlaylist.classList.remove('hidden');
   }
 }
 
 document.addEventListener('input', function() {
-  const searchTerm = searchInput.value.toLowerCase();
-  if(searchTerm === '') {
-    resultPlaylist.classList.add('hidden');
-    resultsArtist.classList.remove('hidden');
+  const searchTerm = searchInput.value.trim().toLowerCase(); // Remove espaços em branco
+  if (searchTerm === '') {
+    resultPlaylist.classList.remove('hidden');
+    resultsArtist.classList.add('hidden');
     return;
   }
-
   requestApi(searchTerm);
 });
 
@@ -70,6 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const footer = document.querySelector('.footer');
 
   closeButton.addEventListener('click', () => {
-      footer.classList.add('hidden');
+    footer.classList.add('hidden');
   });
 });
