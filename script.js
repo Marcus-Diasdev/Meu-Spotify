@@ -19,8 +19,7 @@ function requestApi(searchTerm) {
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      // Filtra os resultados manualmente
-      const filteredResults = result.filter(artist => 
+      const filteredResults = result.artists.filter(artist => 
         artist.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
       displayResults(filteredResults);
@@ -36,21 +35,20 @@ function displayResults(result) {
   const artistGenre = document.querySelector('.artist-categorie');
 
   if (result.length > 0) {
-    const element = result[0]; // Pega o primeiro resultado
+    const element = result[0];
     artistName.innerText = element.name;
     artistImage.src = element.urlImg;
     artistGenre.innerText = element.genre;
     resultsArtist.classList.remove('hidden');
     resultPlaylist.classList.add('hidden');
   } else {
-    // Se não houver resultados, esconde a seção de artistas
     resultsArtist.classList.add('hidden');
     resultPlaylist.classList.remove('hidden');
   }
 }
 
 document.addEventListener('input', function() {
-  const searchTerm = searchInput.value.trim().toLowerCase(); // Remove espaços em branco
+  const searchTerm = searchInput.value.trim().toLowerCase();
   if (searchTerm === '') {
     resultPlaylist.classList.remove('hidden');
     resultsArtist.classList.add('hidden');
